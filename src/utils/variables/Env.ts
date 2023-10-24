@@ -10,6 +10,7 @@ class Env {
   static DB_USERNAME: string = process.env.DB_USERNAME || "postgres";
   static DB_PASSWORD: string = process.env.DB_PASSWORD || "secret";
   static DB_NAME: string = process.env.DB_NAME || "typeorm-db";
+  static JWT_SECRET: string = process.env.JWT_SECRET || "jwt_secret";
 }
 
 export default Env;

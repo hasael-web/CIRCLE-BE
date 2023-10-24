@@ -26,13 +26,13 @@ export class User {
   @Column({ length: 50 })
     email!: string;
 
-  @Column({ type: "text", select: false })
+  @Column({ type: "text" })
     password!: string;
 
   @Column({ type: "text" })
     profile_picture!: string;
 
-  @Column({ length: 250 })
+  @Column({ length: 250, nullable: true })
     bio!: string;
 
   @CreateDateColumn({ type: "timestamp with time zone" })
