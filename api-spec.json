@@ -1,0 +1,136 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Book API Documentation",
+    "description": "Starter Clean Architecture Express TypeScript TypeORM PostgreSQL",
+    "contact": {
+      "name": "Andry Pebrianto",
+      "url": "https://andrypebrianto.netlify.app",
+      "email": "andrypeb227@gmail.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://opensource.org/license/mit"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5123",
+      "description": "Dev"
+    }
+  ],
+  "paths": {
+    "/book": {
+      "post": {
+        "summary": "Create New Book",
+        "tags": [
+          "Book API"
+        ],
+        "description": "This endpoint is used to create new book data and save it to the database",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bookName": {
+                    "type": "string",
+                    "default": "Example Book Name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {}
+      }
+    },
+    "/books": {
+      "get": {
+        "summary": "Get All Book",
+        "tags": [
+          "Book API"
+        ],
+        "description": "This endpoint is used to get all book data from the database",
+        "responses": {}
+      }
+    },
+    "/book/{id}": {
+      "get": {
+        "summary": "Get One Book",
+        "tags": [
+          "Book API"
+        ],
+        "description": "This endpoint is used to get one book data from the database based on the book id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Book id for get one",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "summary": "Update One Book",
+        "tags": [
+          "Book API"
+        ],
+        "description": "This endpoint is used to update one book data from the database based on the book id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Book id for update one",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bookName": {
+                    "type": "string",
+                    "default": "Example Book Name (Update)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {}
+      },
+      "delete": {
+        "summary": "Delete One Book",
+        "tags": [
+          "Book API"
+        ],
+        "description": "This endpoint is used to delete one book data from the database based on the book id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Book id for delete one",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    }
+  }
+}
