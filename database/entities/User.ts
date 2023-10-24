@@ -5,6 +5,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { Thread } from "./Thread";
 
@@ -29,7 +31,7 @@ export class User {
     profile_picture!: string;
 
   @Column({ length: 250 })
-    profile_description!: string;
+    bio!: string;
 
   @CreateDateColumn({ type: "timestamp with time zone" })
     created_at!: Date;
@@ -39,4 +41,18 @@ export class User {
 
   @OneToMany(() => Thread, (thread) => thread.user)
     threads!: Thread[];
+
+  @ManyToMany(() => User, (user) => user.users)
+  @JoinTable({
+    name: "following",
+    joinColumn: {
+      name: "following_id",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "follower_id",
+      referencedColumnName: "id",
+    },
+  })
+    users!: User[];
 }

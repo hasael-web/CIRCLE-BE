@@ -11,4 +11,10 @@ export default new (class ThreadController {
   findOne(req: Request, res: Response) {
     ThreadServices.findOne(req, res);
   }
+  updateOne(req: Request, res: Response) {
+    ThreadServices.updateOne(req, res);
+  }
+  deleteOne(req: Request, res: Response) {
+    ThreadServices.deleteOne(req, res);
+  }
 })();
