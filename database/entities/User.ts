@@ -9,6 +9,8 @@ import {
   JoinTable,
 } from "typeorm";
 import { Thread } from "./Thread";
+import { Like } from "./Like";
+import { Reply } from "./Reply";
 
 @Entity("users")
 export class User {
@@ -41,6 +43,12 @@ export class User {
 
   @OneToMany(() => Thread, (thread) => thread.user)
     threads!: Thread[];
+
+  @OneToMany(() => Like, (like) => like.user)
+    likes!: Like[];
+
+  @OneToMany(() => Reply, (reply) => reply.user)
+    replies!: Reply[];
 
   @ManyToMany(() => User, (user) => user.users)
   @JoinTable({

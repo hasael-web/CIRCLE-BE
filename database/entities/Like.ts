@@ -20,14 +20,14 @@ export class Like {
   @UpdateDateColumn({ type: "timestamp with time zone" })
     updated_at!: Date;
 
-  @ManyToOne(() => User, (user) => user.threads, {
+  @ManyToOne(() => User, (user) => user.likes, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "user_id" }) // untuk membuat foreignkey
     user!: User;
 
-  @ManyToOne(() => User, (user) => user.threads, {
+  @ManyToOne(() => Thread, (thread) => thread.likes, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE",
   })
