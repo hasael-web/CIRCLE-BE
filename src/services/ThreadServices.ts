@@ -77,9 +77,13 @@ export default new (class ThreadServices {
 
   async findOne(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
+      const { threadId } = req.params;
 
-      if (!/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(id)) {
+      if (
+        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
+          threadId
+        )
+      ) {
         throw new BadRequestError(
           "The sent ID is not a valid UUID format",
           "UUID Error"
@@ -88,7 +92,7 @@ export default new (class ThreadServices {
 
       const thread: Thread | null = await this.ThreadRepository.findOne({
         where: {
-          id: req.params.id,
+          id: threadId,
         },
         relations: ["user", "likes", "replies"],
         select: {
@@ -103,7 +107,7 @@ export default new (class ThreadServices {
 
       if (!thread) {
         throw new NotFoundError(
-          `Thread with ID ${id} not found`,
+          `Thread with ID ${threadId} not found`,
           "Thread Not Found"
         );
       }
@@ -124,9 +128,13 @@ export default new (class ThreadServices {
 
   async updateOne(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
+      const { threadId } = req.params;
 
-      if (!/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(id)) {
+      if (
+        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
+          threadId
+        )
+      ) {
         throw new BadRequestError(
           "The sent ID is not a valid UUID format",
           "UUID Error"
@@ -135,13 +143,13 @@ export default new (class ThreadServices {
 
       const thread: Thread | null = await this.ThreadRepository.findOne({
         where: {
-          id: req.params.id,
+          id: threadId,
         },
       });
 
       if (!thread) {
         throw new NotFoundError(
-          `Thread with ID ${id} not found`,
+          `Thread with ID ${threadId} not found`,
           "Thread Not Found"
         );
       }
@@ -163,9 +171,13 @@ export default new (class ThreadServices {
 
   async deleteOne(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
+      const { threadId } = req.params;
 
-      if (!/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(id)) {
+      if (
+        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
+          threadId
+        )
+      ) {
         throw new BadRequestError(
           "The sent ID is not a valid UUID format",
           "UUID Error"
@@ -174,18 +186,18 @@ export default new (class ThreadServices {
 
       const thread: Thread | null = await this.ThreadRepository.findOne({
         where: {
-          id: req.params.id,
+          id: threadId,
         },
       });
 
       if (!thread) {
         throw new NotFoundError(
-          `Thread with ID ${id} not found`,
+          `Thread with ID ${threadId} not found`,
           "Thread Not Found"
         );
       }
 
-      await this.ThreadRepository.delete(id);
+      await this.ThreadRepository.delete(threadId);
 
       return res.status(200).json({
         code: 200,

@@ -19,11 +19,11 @@ export default new (class ReplyServices {
 
   async add(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
+      const { threadId } = req.params;
 
       if (
         !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
-          id
+          threadId
         )
       ) {
         throw new BadRequestError(
@@ -48,14 +48,14 @@ export default new (class ReplyServices {
       const threadSelected: Thread | null = await this.ThreadRepository.findOne(
         {
           where: {
-            id: req.params.id,
+            id: threadId,
           },
         }
       );
 
       if (!threadSelected) {
         throw new NotFoundError(
-          `Thread with ID ${res.locals.auth.id} not found`,
+          `Thread with ID ${threadId} not found`,
           "Thread Not Found"
         );
       }
@@ -83,11 +83,11 @@ export default new (class ReplyServices {
 
   async updateOne(req: Request, res: Response): Promise<Response> {
     try {
-      const { id, replyId } = req.params;
+      const { threadId, replyId } = req.params;
 
       if (
         !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
-          id
+          threadId
         ) ||
         !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
           replyId
@@ -99,15 +99,17 @@ export default new (class ReplyServices {
         );
       }
 
-      const thread: Thread | null = await this.ThreadRepository.findOne({
-        where: {
-          id,
-        },
-      });
+      const threadSelected: Thread | null = await this.ThreadRepository.findOne(
+        {
+          where: {
+            id: threadId,
+          },
+        }
+      );
 
-      if (!thread) {
+      if (!threadSelected) {
         throw new NotFoundError(
-          `Thread with ID ${id} not found`,
+          `Thread with ID ${threadId} not found`,
           "Thread Not Found"
         );
       }
@@ -120,7 +122,7 @@ export default new (class ReplyServices {
 
       if (!reply) {
         throw new NotFoundError(
-          `Reply with ID ${id} not found`,
+          `Reply with ID ${replyId} not found`,
           "Reply Not Found"
         );
       }
@@ -142,11 +144,11 @@ export default new (class ReplyServices {
 
   async deleteOne(req: Request, res: Response): Promise<Response> {
     try {
-      const { id, replyId } = req.params;
+      const { threadId, replyId } = req.params;
 
       if (
         !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
-          id
+          threadId
         ) ||
         !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
           replyId
@@ -160,13 +162,13 @@ export default new (class ReplyServices {
 
       const thread: Thread | null = await this.ThreadRepository.findOne({
         where: {
-          id,
+          id: threadId,
         },
       });
 
       if (!thread) {
         throw new NotFoundError(
-          `Thread with ID ${id} not found`,
+          `Thread with ID ${threadId} not found`,
           "Thread Not Found"
         );
       }
@@ -179,7 +181,7 @@ export default new (class ReplyServices {
 
       if (!reply) {
         throw new NotFoundError(
-          `Reply with ID ${id} not found`,
+          `Reply with ID ${replyId} not found`,
           "Reply Not Found"
         );
       }

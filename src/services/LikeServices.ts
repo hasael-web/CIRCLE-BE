@@ -19,9 +19,9 @@ export default new (class LikeServices {
 
   async like(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
+      const { threadId } = req.params;
 
-      if (!/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(id)) {
+      if (!/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(threadId)) {
         throw new BadRequestError(
           "The sent ID is not a valid UUID format",
           "UUID Error"
@@ -44,14 +44,14 @@ export default new (class LikeServices {
       const threadSelected: Thread | null = await this.ThreadRepository.findOne(
         {
           where: {
-            id: req.params.id,
+            id: threadId,
           },
         }
       );
 
       if (!threadSelected) {
         throw new NotFoundError(
-          `Thread with ID ${res.locals.auth.id} not found`,
+          `Thread with ID ${threadId} not found`,
           "Thread Not Found"
         );
       }
