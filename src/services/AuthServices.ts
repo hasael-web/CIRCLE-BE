@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import _ from "lodash";
 import { PostgreDataSource } from "../../database/data-source";
 import { User } from "../../database/entities/User";
 import handleError from "../utils/exception/handleError";
@@ -37,7 +38,7 @@ export default new (class AuthServices {
 
       const user = new User();
       user.id = uuidv4();
-      user.username = `user_${user.id}`;
+      user.username = `user_${user.id.slice(0, 8)}_${_.random(1, 100000)}`;
       user.fullname = fullName;
       user.email = email;
       user.password = passwordHashed;

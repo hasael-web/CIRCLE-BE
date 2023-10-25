@@ -34,9 +34,7 @@ export default new (class ThreadServices {
       const thread: Thread = new Thread();
       thread.id = uuidv4();
       thread.content = content;
-      thread.image = image
-        ? image
-        : "https://mardizu.co.id/assets/images/client/default.png";
+      if (image) thread.image = image;
       thread.user = userSelected;
       await this.ThreadRepository.save(thread);
 
@@ -143,12 +141,9 @@ export default new (class ThreadServices {
         );
       }
 
-      const { content, image } = req.body;
+      const { content } = req.body;
 
       thread.content = content;
-      thread.image = image
-        ? image
-        : "https://mardizu.co.id/assets/images/client/default.png";
       await this.ThreadRepository.save(thread);
 
       return res.status(200).json({

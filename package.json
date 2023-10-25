@@ -1,9 +1,9 @@
 {
-  "name": "starter-ca-express-ts-typeorm-postgresql",
+  "name": "circle-api",
   "version": "1.0.0",
-  "description": "Starter project implementing Clean Architecture to start creating backend services with Express TypeScript, TypeORM, and PostgreSQL.",
+  "description": "API Service for Circle App.",
   "main": "dist/src/app.js",
-  "repository": "https://github.com/andry-pebrianto/starter-ca-express-ts-typeorm-postgresql.git",
+  "repository": "https://github.com/andry-pebrianto/circle-api.git",
   "author": "Andry Pebrianto <andrypeb227@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -23,6 +23,7 @@
     "@types/express": "^4.17.19",
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^9.0.4",
+    "@types/lodash": "^4.14.200",
     "@types/node": "^20.8.4",
     "@types/pg": "^8.10.5",
     "@types/uuid": "^9.0.5",
@@ -41,9 +42,9 @@
     "helmet": "^7.0.0",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
-    "tsyringe": "^4.8.0",
     "typeorm": "^0.3.11",
     "uuid": "^9.0.1"
   }
