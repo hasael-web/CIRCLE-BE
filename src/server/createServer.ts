@@ -4,6 +4,7 @@ import helmet from "helmet";
 
 import ThreadRoutes from "../routes/ThreadRoutes";
 import AuthRoutes from "../routes/AuthRoutes";
+import FollowRoutes from "../routes/FollowRoutes";
 
 const createServer: Express = express();
 
@@ -17,6 +18,7 @@ createServer.get("/", (req: Request, res: Response): Response<string> => {
 
 createServer.use("/api/v1", AuthRoutes);
 createServer.use("/api/v1", ThreadRoutes);
+createServer.use("/api/v1", FollowRoutes);
 
 createServer.use((req: Request, res: Response): Response<string> => {
   return res.status(404).send("404 - Not Found!");
