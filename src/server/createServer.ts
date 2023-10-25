@@ -3,7 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 
 import ThreadRoutes from "../routes/ThreadRoutes";
-import AuthRoutes from "../routes/AuthRoute";
+import AuthRoutes from "../routes/AuthRoutes";
 
 const createServer: Express = express();
 

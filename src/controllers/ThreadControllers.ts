@@ -6,7 +6,7 @@ import {
   updateThreadSchema,
 } from "../utils/validator/schema/threadSchema";
 
-export default new (class ThreadController {
+export default new (class ThreadControllers {
   add(req: Request, res: Response) {
     if (runValidation(req, res, addThreadSchema) === "VALID") {
       ThreadServices.add(req, res);

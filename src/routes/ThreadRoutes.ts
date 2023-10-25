@@ -1,18 +1,21 @@
 import { Router } from "express";
-import ThreadController from "../controllers/ThreadController";
 import { jwtAuth } from "../middlewares/jwtAuth";
+import ThreadControllers from "../controllers/ThreadControllers";
+import LikeControllers from "../controllers/LikeControllers";
 
 const ThreadRoutes = Router();
 
 // POST | /thread
-ThreadRoutes.post("/thread", jwtAuth, ThreadController.add);
+ThreadRoutes.post("/thread", jwtAuth, ThreadControllers.add);
 // GET | /threads
-ThreadRoutes.get("/threads", ThreadController.findAll);
+ThreadRoutes.get("/threads", ThreadControllers.findAll);
 // GET | /thread/:id
-ThreadRoutes.get("/thread/:id", ThreadController.findOne);
+ThreadRoutes.get("/thread/:id", ThreadControllers.findOne);
 // PUT | /thread/:id
-ThreadRoutes.put("/thread/:id", jwtAuth, ThreadController.updateOne);
+ThreadRoutes.put("/thread/:id", jwtAuth, ThreadControllers.updateOne);
 // DELETE | /thread/:id
-ThreadRoutes.delete("/thread/:id", jwtAuth, ThreadController.deleteOne);
+ThreadRoutes.delete("/thread/:id", jwtAuth, ThreadControllers.deleteOne);
+// POST | /thread/:id/like
+ThreadRoutes.post("/thread/:id/like", jwtAuth, LikeControllers.like);
 
 export default ThreadRoutes;

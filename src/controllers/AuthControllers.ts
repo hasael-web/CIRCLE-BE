@@ -6,7 +6,7 @@ import {
   loginSchema,
 } from "../utils/validator/schema/authSchema";
 
-export default new (class ThreadController {
+export default new (class AuthControllers {
   register(req: Request, res: Response) {
     if (runValidation(req, res, registerSchema) === "VALID") {
       AuthServices.register(req, res);
