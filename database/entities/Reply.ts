@@ -18,7 +18,7 @@ export class Reply {
   @Column({ length: 500 })
     content!: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: true })
     image!: string;
 
   @CreateDateColumn({ type: "timestamp with time zone" })
