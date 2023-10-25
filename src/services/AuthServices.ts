@@ -59,6 +59,7 @@ export default new (class AuthServices {
     try {
       const { emailOrUsername, password } = req.body;
 
+      // CHECK USERNAME / EMAIL
       const userSelected = await this.UserRepository.findOne({
         where: [{ email: emailOrUsername }, { username: emailOrUsername }],
       });
@@ -69,7 +70,9 @@ export default new (class AuthServices {
           "Login Failed"
         );
       }
+      // CHECK USERNAME / EMAIL
 
+      // CHECK PASSWORD
       const isPasswordValid = await bcrypt.compare(
         password,
         userSelected.password
@@ -81,6 +84,7 @@ export default new (class AuthServices {
           "Login Failed"
         );
       }
+      // CHECK PASSWORD
 
       const token = jwt.sign({ id: userSelected.id }, Env.JWT_SECRET, {
         expiresIn: 604800,

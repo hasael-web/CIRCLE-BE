@@ -16,17 +16,15 @@ export default new (class ThreadServices {
 
   async add(req: Request, res: Response): Promise<Response> {
     try {
-      const dummyUserId = "2ab42bba-2edc-445e-a9d0-8ae7797e8b34";
-
       const userSelected: User | null = await this.UserRepository.findOne({
         where: {
-          id: dummyUserId,
+          id: res.locals.auth.id,
         },
       });
 
       if (!userSelected) {
         throw new NotFoundError(
-          `User with ID ${dummyUserId} not found`,
+          `User with ID ${res.locals.auth.id} not found`,
           "User Not Found"
         );
       }
@@ -55,6 +53,14 @@ export default new (class ThreadServices {
     try {
       const threads: Thread[] = await this.ThreadRepository.find({
         relations: ["user"],
+        select: {
+          user: {
+            id: true,
+            username: true,
+            fullname: true,
+            profile_picture: true,
+          },
+        },
       });
 
       return res.status(200).json({
@@ -72,11 +78,7 @@ export default new (class ThreadServices {
     try {
       const { id } = req.params;
 
-      if (
-        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
-          id
-        )
-      ) {
+      if (!/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(id)) {
         throw new BadRequestError(
           "The sent ID is not a valid UUID format",
           "UUID Error"
@@ -88,6 +90,14 @@ export default new (class ThreadServices {
           id: req.params.id,
         },
         relations: ["user"],
+        select: {
+          user: {
+            id: true,
+            username: true,
+            fullname: true,
+            profile_picture: true,
+          },
+        },
       });
 
       if (!thread) {
@@ -112,11 +122,7 @@ export default new (class ThreadServices {
     try {
       const { id } = req.params;
 
-      if (
-        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
-          id
-        )
-      ) {
+      if (!/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(id)) {
         throw new BadRequestError(
           "The sent ID is not a valid UUID format",
           "UUID Error"
