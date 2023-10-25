@@ -20,5 +20,9 @@ ThreadRoutes.delete("/thread/:id", jwtAuth, ThreadControllers.deleteOne);
 ThreadRoutes.post("/thread/:id/like", jwtAuth, LikeControllers.like);
 // POST | /thread/:id/reply
 ThreadRoutes.post("/thread/:id/reply", jwtAuth, ReplyControllers.add);
+// PUT | /thread/:id/reply/:replyId
+ThreadRoutes.put("/thread/:id/reply/:replyId", jwtAuth, ReplyControllers.updateOne);
+// DELETE | /thread/:id/reply/:replyId
+ThreadRoutes.delete("/thread/:id/reply/:replyId", jwtAuth, ReplyControllers.deleteOne);
 
 export default ThreadRoutes;

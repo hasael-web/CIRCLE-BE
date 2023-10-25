@@ -21,7 +21,11 @@ export default new (class ReplyServices {
     try {
       const { id } = req.params;
 
-      if (!/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(id)) {
+      if (
+        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
+          id
+        )
+      ) {
         throw new BadRequestError(
           "The sent ID is not a valid UUID format",
           "UUID Error"
@@ -72,6 +76,121 @@ export default new (class ReplyServices {
         message: "Add Reply Success",
       });
       // IF NOT YET LIKE
+    } catch (error) {
+      return handleError(res, error);
+    }
+  }
+
+  async updateOne(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id, replyId } = req.params;
+
+      if (
+        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
+          id
+        ) ||
+        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
+          replyId
+        )
+      ) {
+        throw new BadRequestError(
+          "The sent ID is not a valid UUID format",
+          "UUID Error"
+        );
+      }
+
+      const thread: Thread | null = await this.ThreadRepository.findOne({
+        where: {
+          id,
+        },
+      });
+
+      if (!thread) {
+        throw new NotFoundError(
+          `Thread with ID ${id} not found`,
+          "Thread Not Found"
+        );
+      }
+
+      const reply: Reply | null = await this.ReplyRepository.findOne({
+        where: {
+          id: replyId,
+        },
+      });
+
+      if (!reply) {
+        throw new NotFoundError(
+          `Reply with ID ${id} not found`,
+          "Reply Not Found"
+        );
+      }
+
+      const { content } = req.body;
+
+      reply.content = content;
+      await this.ReplyRepository.save(reply);
+
+      return res.status(200).json({
+        code: 200,
+        status: "success",
+        message: "Update One Reply Success",
+      });
+    } catch (error) {
+      return handleError(res, error);
+    }
+  }
+
+  async deleteOne(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id, replyId } = req.params;
+
+      if (
+        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
+          id
+        ) ||
+        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
+          replyId
+        )
+      ) {
+        throw new BadRequestError(
+          "The sent ID is not a valid UUID format",
+          "UUID Error"
+        );
+      }
+
+      const thread: Thread | null = await this.ThreadRepository.findOne({
+        where: {
+          id,
+        },
+      });
+
+      if (!thread) {
+        throw new NotFoundError(
+          `Thread with ID ${id} not found`,
+          "Thread Not Found"
+        );
+      }
+
+      const reply: Reply | null = await this.ReplyRepository.findOne({
+        where: {
+          id: replyId,
+        },
+      });
+
+      if (!reply) {
+        throw new NotFoundError(
+          `Reply with ID ${id} not found`,
+          "Reply Not Found"
+        );
+      }
+
+      await this.ReplyRepository.delete(replyId);
+
+      return res.status(200).json({
+        code: 200,
+        status: "success",
+        message: "Delete One Reply Success",
+      });
     } catch (error) {
       return handleError(res, error);
     }
