@@ -34,7 +34,9 @@ export default new (class ThreadServices {
       const thread: Thread = new Thread();
       thread.id = uuidv4();
       thread.content = content;
-      thread.image = image;
+      thread.image = image
+        ? image
+        : "https://mardizu.co.id/assets/images/client/default.png";
       thread.user = userSelected;
       await this.ThreadRepository.save(thread);
 
@@ -42,7 +44,6 @@ export default new (class ThreadServices {
         code: 201,
         status: "success",
         message: "Add Thread Success",
-        data: thread,
       });
     } catch (error) {
       return handleError(res, error);
@@ -133,7 +134,6 @@ export default new (class ThreadServices {
         where: {
           id: req.params.id,
         },
-        relations: ["user"],
       });
 
       if (!thread) {
@@ -146,14 +146,15 @@ export default new (class ThreadServices {
       const { content, image } = req.body;
 
       thread.content = content;
-      thread.image = image;
+      thread.image = image
+        ? image
+        : "https://mardizu.co.id/assets/images/client/default.png";
       await this.ThreadRepository.save(thread);
 
       return res.status(200).json({
         code: 200,
         status: "success",
         message: "Update One Thread Success",
-        data: thread,
       });
     } catch (error) {
       return handleError(res, error);
@@ -164,11 +165,7 @@ export default new (class ThreadServices {
     try {
       const { id } = req.params;
 
-      if (
-        !/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(
-          id
-        )
-      ) {
+      if (!/^[a-f\d]{8}-[a-f\d]{4}-4[a-f\d]{3}-[89aAbB][a-f\d]{3}-[a-f\d]{12}$/.test(id)) {
         throw new BadRequestError(
           "The sent ID is not a valid UUID format",
           "UUID Error"
@@ -179,7 +176,6 @@ export default new (class ThreadServices {
         where: {
           id: req.params.id,
         },
-        relations: ["user"],
       });
 
       if (!thread) {
@@ -194,8 +190,7 @@ export default new (class ThreadServices {
       return res.status(200).json({
         code: 200,
         status: "success",
-        message: "Find One Thread Success",
-        data: null,
+        message: "Delete One Thread Success",
       });
     } catch (error) {
       return handleError(res, error);
