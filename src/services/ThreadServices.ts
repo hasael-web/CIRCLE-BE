@@ -66,6 +66,9 @@ export default new (class ThreadServices {
         },
         take: 10,
         skip: page * 10 - 10,
+        order: {
+          created_at: "DESC",
+        },
       });
 
       return res.status(200).json({
