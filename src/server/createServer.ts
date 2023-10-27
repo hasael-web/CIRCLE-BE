@@ -1,6 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
+import handleError from "../utils/exception/handleError";
+import NotFoundError from "../utils/exception/custom/NotFoundError";
 
 import ThreadRoutes from "../routes/ThreadRoutes";
 import AuthRoutes from "../routes/AuthRoutes";
@@ -21,7 +23,10 @@ createServer.use("/api/v1", ThreadRoutes);
 createServer.use("/api/v1", FollowRoutes);
 
 createServer.use((req: Request, res: Response): Response<string> => {
-  return res.status(404).send("404 - Not Found!");
+  return handleError(
+    res,
+    new NotFoundError("Resource on that url doesn't exist", "Not Found")
+  );
 });
 
 export default createServer;
