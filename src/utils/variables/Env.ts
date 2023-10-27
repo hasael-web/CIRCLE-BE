@@ -11,6 +11,9 @@ class Env {
   static DB_PASSWORD: string = process.env.DB_PASSWORD || "secret";
   static DB_NAME: string = process.env.DB_NAME || "typeorm-db";
   static JWT_SECRET: string = process.env.JWT_SECRET || "jwt_secret";
+  static CLOUDINARY_CLOUD_NAME: string = process.env.CLOUDINARY_CLOUD_NAME || "cludinary_cloud_name";
+  static CLOUDINARY_API_KEY: string = process.env.CLOUDINARY_API_KEY || "cludinary_api_key";
+  static CLOUDINARY_API_SECRET: string = process.env.CLOUDINARY_API_SECRET || "cludinary_api_secret";
 }
 
 export default Env;
