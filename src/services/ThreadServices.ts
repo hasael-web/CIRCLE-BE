@@ -50,6 +50,10 @@ export default new (class ThreadServices {
 
   async findAll(req: Request, res: Response): Promise<Response> {
     try {
+      let page =
+        typeof req.query.page === "string" ? parseInt(req.query.page, 10) : 1;
+      page = page > 1 ? page : 1;
+
       const threads: Thread[] = await this.ThreadRepository.find({
         relations: ["user", "likes", "replies"],
         select: {
@@ -60,6 +64,8 @@ export default new (class ThreadServices {
             profile_picture: true,
           },
         },
+        take: 10,
+        skip: page * 10 - 10,
       });
 
       return res.status(200).json({
@@ -67,7 +73,11 @@ export default new (class ThreadServices {
         status: "success",
         message: "Find All Thread Success",
         data: threads.map((thread) => {
-          return { ...thread, likes: thread.likes.length };
+          return {
+            ...thread,
+            likes: thread.likes.length,
+            replies: thread.replies.length,
+          };
         }),
       });
     } catch (error) {
