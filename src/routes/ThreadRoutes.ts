@@ -9,9 +9,9 @@ const ThreadRoutes = Router();
 // POST | /thread
 ThreadRoutes.post("/thread", jwtAuth, ThreadControllers.add);
 // GET | /threads
-ThreadRoutes.get("/threads", ThreadControllers.findAll);
+ThreadRoutes.get("/threads", jwtAuth, ThreadControllers.findAll);
 // GET | /thread/:threadId
-ThreadRoutes.get("/thread/:threadId", ThreadControllers.findOne);
+ThreadRoutes.get("/thread/:threadId", jwtAuth, ThreadControllers.findOne);
 // PUT | /thread/:threadId
 ThreadRoutes.put("/thread/:threadId", jwtAuth, ThreadControllers.updateOne);
 // DELETE | /thread/:threadId
