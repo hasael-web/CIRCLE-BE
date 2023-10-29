@@ -8,6 +8,7 @@ import ThreadRoutes from "../routes/ThreadRoutes";
 import AuthRoutes from "../routes/AuthRoutes";
 import FollowRoutes from "../routes/FollowRoutes";
 import UploadRoutes from "../routes/UploadRoutes";
+import UserRoutes from "../routes/UserRoutes";
 
 const createServer: Express = express();
 
@@ -23,6 +24,7 @@ createServer.use("/api/v1", AuthRoutes);
 createServer.use("/api/v1", ThreadRoutes);
 createServer.use("/api/v1", FollowRoutes);
 createServer.use("/api/v1", UploadRoutes);
+createServer.use("/api/v1", UserRoutes);
 
 createServer.use((req: Request, res: Response): Response<string> => {
   return handleError(
