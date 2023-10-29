@@ -55,13 +55,24 @@ export default new (class ThreadServices {
       page = page > 1 ? page : 1;
 
       const threads: Thread[] = await this.ThreadRepository.find({
-        relations: ["user", "likes", "replies"],
+        relations: ["user", "likes.user", "replies"],
         select: {
           user: {
             id: true,
             username: true,
             fullname: true,
             profile_picture: true,
+          },
+          likes: {
+            id: true,
+            created_at: true,
+            updated_at: true,
+            user: {
+              id: true,
+              username: true,
+              fullname: true,
+              profile_picture: true,
+            },
           },
         },
         take: 10,
@@ -78,7 +89,6 @@ export default new (class ThreadServices {
         data: threads.map((thread) => {
           return {
             ...thread,
-            likes: thread.likes.length,
             replies: thread.replies.length,
           };
         }),
@@ -107,13 +117,24 @@ export default new (class ThreadServices {
         where: {
           id: threadId,
         },
-        relations: ["user", "likes", "replies"],
+        relations: ["user", "likes.user", "replies"],
         select: {
           user: {
             id: true,
             username: true,
             fullname: true,
             profile_picture: true,
+          },
+          likes: {
+            id: true,
+            created_at: true,
+            updated_at: true,
+            user: {
+              id: true,
+              username: true,
+              fullname: true,
+              profile_picture: true,
+            },
           },
         },
       });
@@ -129,10 +150,7 @@ export default new (class ThreadServices {
         code: 200,
         status: "success",
         message: "Find One Thread Success",
-        data: {
-          ...thread,
-          likes: thread.likes.length,
-        },
+        data: thread,
       });
     } catch (error) {
       return handleError(res, error);
