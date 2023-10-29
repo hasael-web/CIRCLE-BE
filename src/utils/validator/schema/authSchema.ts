@@ -13,6 +13,6 @@ export const registerSchema = Joi.object({
 });
 
 export const loginSchema = Joi.object({
-  emailOrUsername: Joi.string().required().allow(""),
+  emailOrUsername: Joi.string().required(),
   password: Joi.string().required(),
 });

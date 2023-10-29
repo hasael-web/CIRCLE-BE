@@ -17,4 +17,7 @@ export default new (class AuthControllers {
       AuthServices.login(req, res);
     }
   }
+  check(req: Request, res: Response) {
+    AuthServices.check(req, res);
+  }
 })();

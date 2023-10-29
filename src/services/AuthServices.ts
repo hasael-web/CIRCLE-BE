@@ -10,6 +10,7 @@ import handleError from "../utils/exception/handleError";
 import ConflictError from "../utils/exception/custom/ConflictError";
 import BadRequestError from "../utils/exception/custom/BadRequestError";
 import Env from "../utils/variables/Env";
+import NotFoundError from "../utils/exception/custom/NotFoundError";
 
 export default new (class AuthServices {
   private readonly UserRepository: Repository<User> =
@@ -101,4 +102,30 @@ export default new (class AuthServices {
       return handleError(res, error);
     }
   }
+
+  async check(req: Request, res: Response) {
+    try {
+      const userSelected: User | null = await this.UserRepository.findOne({
+        where: {
+          id: res.locals.auth.id,
+        },
+      });
+
+      if (!userSelected) {
+        throw new NotFoundError(
+          `User with ID ${res.locals.auth.id} not found`,
+          "User Not Found"
+        );
+      }
+
+      return res.status(200).json({
+        code: 200,
+        status: "success",
+        message: "Token Is Valid",
+      });
+    } catch (error) {
+      return handleError(res, error);
+    }
+  }
+
 })();
