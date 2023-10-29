@@ -7,7 +7,7 @@ const UserRoutes = Router();
 // GET | /users
 UserRoutes.get("/users", jwtAuth, UserControllers.findAll);
 // GET | /user
-UserRoutes.get("/user/jwt", jwtAuth, UserControllers.findByJwt);
+UserRoutes.get("/user/profile", jwtAuth, UserControllers.findByJwt);
 // GET | /user
 UserRoutes.get("/user/:userId", jwtAuth, UserControllers.findByParam);
 
