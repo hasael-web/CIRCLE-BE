@@ -125,6 +125,12 @@ export default new (class ThreadServices {
       const suggested: User[] = await this.UserRepository.createQueryBuilder(
         "users"
       )
+        .select([
+          "users.id",
+          "users.fullname",
+          "users.username",
+          "users.profile_picture",
+        ])
         .where({ id: Not(res.locals.auth.id) })
         .orderBy("RANDOM()")
         .limit(5)
