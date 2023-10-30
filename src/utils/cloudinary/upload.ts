@@ -1,9 +1,9 @@
-import { v2 as cloudinary } from "cloudinary";
+import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import Env from "../variables/Env";
 
 export const uploadToCloudinary = (
   file: Express.Multer.File
-): Promise<string | undefined> => {
+): Promise<UploadApiResponse | undefined> => {
   cloudinary.config({
     cloud_name: Env.CLOUDINARY_CLOUD_NAME,
     api_key: Env.CLOUDINARY_API_KEY,
@@ -18,7 +18,7 @@ export const uploadToCloudinary = (
         return reject(error);
       }
 
-      return resolve(result?.secure_url);
+      return resolve(result);
     });
   });
 };

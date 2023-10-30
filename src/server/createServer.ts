@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
+import cron from "node-cron";
 import handleError from "../utils/exception/handleError";
 import NotFoundError from "../utils/exception/custom/NotFoundError";
 
@@ -25,6 +26,8 @@ createServer.use("/api/v1", ThreadRoutes);
 createServer.use("/api/v1", FollowRoutes);
 createServer.use("/api/v1", UploadRoutes);
 createServer.use("/api/v1", UserRoutes);
+
+cron.schedule("0 0 * * *", () => {});
 
 createServer.use((req: Request, res: Response): Response<string> => {
   return handleError(

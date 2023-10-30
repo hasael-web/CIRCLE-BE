@@ -5,6 +5,7 @@ import { User } from "./entities/User";
 import { Thread } from "./entities/Thread";
 import { Reply } from "./entities/Reply";
 import { Like } from "./entities/Like";
+import { Upload } from "./entities/Upload";
 
 export const PostgreDataSource = new DataSource({
   type: "postgres",
@@ -15,7 +16,7 @@ export const PostgreDataSource = new DataSource({
   database: Env.DB_NAME,
   synchronize: Env.NODE_ENV === "prod" ? false : true,
   logging: Env.NODE_ENV === "prod" ? false : true,
-  entities: [User, Thread, Reply, Like],
+  entities: [User, Thread, Reply, Like, Upload],
   migrations: [],
   subscribers: [],
 });

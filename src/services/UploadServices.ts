@@ -1,14 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
+import { Repository } from "typeorm";
+import { UploadApiResponse } from "cloudinary";
 import { deleteFile } from "../utils/file/fileHelper";
 import handleError from "../utils/exception/handleError";
 import { uploadToCloudinary } from "../utils/cloudinary/upload";
 import BadRequestError from "../utils/exception/custom/BadRequestError";
+import { PostgreDataSource } from "../../database/data-source";
+import { Upload } from "../../database/entities/Upload";
 
 export default new (class UploadServices {
+  private readonly UploadRepository: Repository<Upload> =
+    PostgreDataSource.getRepository(Upload);
+
   async uploadToCloudinary(req: Request, res: Response): Promise<Response> {
     try {
-      let image: string | undefined = undefined;
+      let image: UploadApiResponse | undefined = undefined;
 
       if ((req as any).files) {
         if ((req as any).files.image) {
@@ -27,12 +34,17 @@ export default new (class UploadServices {
         );
       }
 
+      const upload: Upload = new Upload();
+      upload.cloudinary_id = image?.public_id || "";
+      await this.UploadRepository.save(upload);
+
       return res.status(200).json({
         code: 200,
         status: "success",
         message: "Upload Image Success",
         data: {
-          url: image,
+          url: image?.secure_url,
+          uploadId: upload.id,
         },
       });
     } catch (error) {
