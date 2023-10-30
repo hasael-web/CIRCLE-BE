@@ -11,4 +11,7 @@ export default new (class UserControllers {
   findByJwt(req: Request, res: Response) {
     UserServices.findOneByJwt(req, res);
   }
+  getSuggestedUser(req: Request, res: Response) {
+    UserServices.getSuggestedUser(req, res);
+  }
 })();
