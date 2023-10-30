@@ -40,7 +40,7 @@ export default new (class ThreadServices {
       if (image) thread.image = image;
       thread.user = userSelected;
       await this.ThreadRepository.save(thread);
-      await this.UploadRepository.delete(uploadId);
+      if (uploadId) await this.UploadRepository.delete(uploadId);
 
       return res.status(201).json({
         code: 201,

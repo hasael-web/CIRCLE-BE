@@ -22,3 +22,21 @@ export const uploadToCloudinary = (
     });
   });
 };
+
+export const deleteUnusedFromCloudinary = (publicsId: string[]): void => {
+  cloudinary.config({
+    cloud_name: Env.CLOUDINARY_CLOUD_NAME,
+    api_key: Env.CLOUDINARY_API_KEY,
+    api_secret: Env.CLOUDINARY_API_SECRET,
+  });
+
+  publicsId.forEach((publicId) => {
+    cloudinary.uploader.destroy(publicId, (error, result) => {
+      if (error) {
+        console.error(`Error deleting public ID ${publicId}:`, error);
+      } else {
+        console.log(`Deleted public ID ${publicId}:`, result);
+      }
+    });
+  });
+};

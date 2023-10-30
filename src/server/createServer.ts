@@ -10,6 +10,7 @@ import AuthRoutes from "../routes/AuthRoutes";
 import FollowRoutes from "../routes/FollowRoutes";
 import UploadRoutes from "../routes/UploadRoutes";
 import UserRoutes from "../routes/UserRoutes";
+import UploadCron from "../cron/UploadCron";
 
 const createServer: Express = express();
 
@@ -27,7 +28,9 @@ createServer.use("/api/v1", FollowRoutes);
 createServer.use("/api/v1", UploadRoutes);
 createServer.use("/api/v1", UserRoutes);
 
-cron.schedule("0 0 * * *", () => {});
+cron.schedule("0 0 * * *", () => {
+  UploadCron.cleanUnusedCloudinaryFileDaily();
+});
 
 createServer.use((req: Request, res: Response): Response<string> => {
   return handleError(
