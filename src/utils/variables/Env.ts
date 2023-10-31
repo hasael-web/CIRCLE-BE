@@ -14,6 +14,7 @@ class Env {
   static CLOUDINARY_CLOUD_NAME: string = process.env.CLOUDINARY_CLOUD_NAME || "cludinary_cloud_name";
   static CLOUDINARY_API_KEY: string = process.env.CLOUDINARY_API_KEY || "cludinary_api_key";
   static CLOUDINARY_API_SECRET: string = process.env.CLOUDINARY_API_SECRET || "cludinary_api_secret";
+  static AMQP_SERVER: string = process.env.AMQP_SERVER || "amqp://localhost";
 }
 
 export default Env;

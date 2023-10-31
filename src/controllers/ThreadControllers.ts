@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import ThreadServices from "../services/ThreadServices";
+import ThreadProducer from "../queue/producer/ThreadProducer";
 import runValidation from "../utils/validator/runValidation";
 import {
   addThreadSchema,
@@ -9,7 +10,7 @@ import {
 export default new (class ThreadControllers {
   add(req: Request, res: Response) {
     if (runValidation(req, res, addThreadSchema) === "VALID") {
-      ThreadServices.add(req, res);
+      ThreadProducer.add(req, res);
     }
   }
   findAll(req: Request, res: Response) {

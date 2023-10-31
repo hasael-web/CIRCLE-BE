@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "start": "node dist/src/app.js",
+    "worker": "nodemon dist/src/worker/index.js",
+    "worker:dev": "nodemon src/worker/index.ts",
     "migrate:generate": "npx typeorm-ts-node-commonjs migration:generate -d database/data-source.ts database/migration/MigrationFile",
     "migrate:up": "npx typeorm-ts-node-commonjs migration:run -d database/data-source.ts",
     "migrate:down": "npx typeorm-ts-node-commonjs migration:revert -d database/data-source.ts",
@@ -17,6 +19,7 @@
     "lint:fix": "eslint . --ignore-path .eslintignore --ext .ts --fix"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.3",
     "@types/bcrypt": "^5.0.1",
     "@types/cors": "^2.8.14",
     "@types/eslint": "^8.44.4",
@@ -37,6 +40,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "amqplib": "^0.10.3",
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.0",
     "cors": "^2.8.5",
