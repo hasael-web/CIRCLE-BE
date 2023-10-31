@@ -54,6 +54,7 @@
     "node-cron": "^3.0.2",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
+    "sleep-promise": "^9.1.0",
     "typeorm": "^0.3.11",
     "uuid": "^9.0.1"
   }

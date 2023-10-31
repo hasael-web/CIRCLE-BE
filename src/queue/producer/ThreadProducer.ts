@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import sleep from 'sleep-promise';
 import handleError from "../../utils/exception/handleError";
 import ProducerService from "../ProducerService";
 
@@ -12,6 +13,8 @@ export default new (class ThreadProducer {
           loginId: res.locals.auth.id,
         })
       );
+
+      await sleep(500);
 
       return res.status(200).json({
         code: 200,
