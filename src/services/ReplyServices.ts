@@ -8,6 +8,7 @@ import { User } from "../../database/entities/User";
 import handleError from "../utils/exception/handleError";
 import BadRequestError from "../utils/exception/custom/BadRequestError";
 import NotFoundError from "../utils/exception/custom/NotFoundError";
+import { Upload } from "../../database/entities/Upload";
 
 export default new (class ReplyServices {
   private readonly ReplyRepository: Repository<Reply> =
@@ -16,6 +17,8 @@ export default new (class ReplyServices {
     PostgreDataSource.getRepository(Thread);
   private readonly UserRepository: Repository<User> =
     PostgreDataSource.getRepository(User);
+  private readonly UploadRepository: Repository<Upload> =
+    PostgreDataSource.getRepository(Upload);
 
   async add(req: Request, res: Response): Promise<Response> {
     try {
@@ -60,7 +63,7 @@ export default new (class ReplyServices {
         );
       }
 
-      const { content, image } = req.body;
+      const { content, image, uploadId } = req.body;
 
       const reply: Reply = new Reply();
       reply.id = uuidv4();
@@ -69,6 +72,7 @@ export default new (class ReplyServices {
       reply.user = userSelected;
       reply.thread = threadSelected;
       await this.ReplyRepository.save(reply);
+      if (uploadId) await this.UploadRepository.delete(uploadId);
 
       return res.status(201).json({
         code: 201,
