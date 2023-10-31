@@ -121,7 +121,7 @@ export default new (class ThreadServices {
         where: {
           id: threadId,
         },
-        relations: ["user", "likes.user", "replies"],
+        relations: ["user", "likes.user", "replies.user"],
         select: {
           user: {
             id: true,
@@ -139,6 +139,24 @@ export default new (class ThreadServices {
               fullname: true,
               profile_picture: true,
             },
+          },
+          replies: {
+            id: true,
+            content: true,
+            image: true,
+            created_at: true,
+            updated_at: true,
+            user: {
+              id: true,
+              username: true,
+              fullname: true,
+              profile_picture: true,
+            },
+          },
+        },
+        order: {
+          replies: {
+            created_at: "DESC",
           },
         },
       });

@@ -28,7 +28,7 @@ createServer.use("/api/v1", FollowRoutes);
 createServer.use("/api/v1", UploadRoutes);
 createServer.use("/api/v1", UserRoutes);
 
-cron.schedule("0 0 * * *", () => {
+cron.schedule("0 0 * * *", () => { // setiap jam 12 malam
   UploadCron.cleanUnusedCloudinaryFileDaily();
 });
 
