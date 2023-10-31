@@ -14,10 +14,8 @@ const ProducerService = {
 
     channel.sendToQueue(queue, Buffer.from(message));
 
-    // tutup koneksi 1 detik setelah pengiriman antrian
-    setTimeout(() => {
-      connection.close();
-    }, 1000);
+    await channel.close();
+    await connection.close();
   },
 };
 
