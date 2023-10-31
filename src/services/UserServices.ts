@@ -66,11 +66,11 @@ export default new (class ThreadServices {
         );
       }
 
-      const followers = await this.UserRepository.query(
+      const followings = await this.UserRepository.query(
         "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=f.following_id WHERE f.follower_id=$1",
         [userId]
       );
-      const followings = await this.UserRepository.query(
+      const followers = await this.UserRepository.query(
         "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=follower_id WHERE f.following_id=$1",
         [userId]
       );
@@ -106,11 +106,11 @@ export default new (class ThreadServices {
         );
       }
 
-      const followers = await this.UserRepository.query(
+      const followings = await this.UserRepository.query(
         "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=f.following_id WHERE f.follower_id=$1",
         [res.locals.auth.id]
       );
-      const followings = await this.UserRepository.query(
+      const followers = await this.UserRepository.query(
         "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=follower_id WHERE f.following_id=$1",
         [res.locals.auth.id]
       );
