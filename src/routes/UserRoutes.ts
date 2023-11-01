@@ -13,6 +13,6 @@ UserRoutes.get("/user/:userId", jwtAuth, UserControllers.findByParam);
 // GET | /suggested
 UserRoutes.get("/suggested", jwtAuth, UserControllers.getSuggestedUser);
 // // DELETE | /suggested
-// UserRoutes.get("/suggested", jwtAuth, UserControllers.getSuggestedUser);
+UserRoutes.delete("/user", jwtAuth, UserControllers.removeAccount);
 
 export default UserRoutes;

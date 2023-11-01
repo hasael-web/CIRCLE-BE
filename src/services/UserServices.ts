@@ -185,12 +185,17 @@ export default new (class ThreadServices {
         );
       }
 
+      await this.UserRepository.query(
+        "DELETE FROM following WHERE following_id=$1 OR follower_id=$1",
+        [res.locals.auth.id]
+      );
+
       await this.UserRepository.delete(res.locals.auth.id);
 
       return res.status(200).json({
         code: 200,
         status: "success",
-        message: "Delete One Thread Success",
+        message: "Remove Account Success",
       });
     } catch (error) {
       return handleError(res, error);
