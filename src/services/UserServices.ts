@@ -28,7 +28,12 @@ export default new (class ThreadServices {
           created_at: "DESC",
         },
       });
-      const count: number = await this.UserRepository.count();
+      const count: number = await this.UserRepository.count({
+        where: [
+          { fullname: ILike(`%${search}%`) },
+          { username: ILike(`%${search}%`) },
+        ],
+      });
 
       return res.status(200).json({
         code: 200,
