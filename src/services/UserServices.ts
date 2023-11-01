@@ -28,6 +28,7 @@ export default new (class ThreadServices {
           created_at: "DESC",
         },
       });
+      const count: number = await this.UserRepository.count();
 
       return res.status(200).json({
         code: 200,
@@ -37,6 +38,7 @@ export default new (class ThreadServices {
           ...user,
           password: null,
         })),
+        totalPage: Math.round(count / 10),
       });
     } catch (error) {
       return handleError(res, error);
