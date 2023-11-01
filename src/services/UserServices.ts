@@ -169,4 +169,31 @@ export default new (class ThreadServices {
       return handleError(res, error);
     }
   }
+
+  async removeAccount(req: Request, res: Response): Promise<Response> {
+    try {
+      const userSelected: User | null = await this.UserRepository.findOne({
+        where: {
+          id: res.locals.auth.id,
+        },
+      });
+
+      if (!userSelected) {
+        throw new NotFoundError(
+          `User with ID ${res.locals.auth.id} not found`,
+          "User Not Found"
+        );
+      }
+
+      await this.UserRepository.delete(res.locals.auth.id);
+
+      return res.status(200).json({
+        code: 200,
+        status: "success",
+        message: "Delete One Thread Success",
+      });
+    } catch (error) {
+      return handleError(res, error);
+    }
+  }
 })();

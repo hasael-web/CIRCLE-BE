@@ -14,4 +14,7 @@ export default new (class UserControllers {
   getSuggestedUser(req: Request, res: Response) {
     UserServices.getSuggestedUser(req, res);
   }
+  removeAccount(req: Request, res: Response) {
+    UserServices.removeAccount(req, res);
+  }
 })();

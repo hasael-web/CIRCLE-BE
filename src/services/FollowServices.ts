@@ -79,8 +79,10 @@ export default new (class FollowServices {
       // IF ALREADY FOLLOW
 
       // IF NOT YET LIKE
-      followingUser.users = [followerUser];
-      await this.UserRepository.save(followingUser);
+      await this.UserRepository.query(
+        "INSERT INTO following(following_id, follower_id) VALUES($1, $2)",
+        [followingUser.id, followerUser.id]
+      );
 
       return res.status(201).json({
         code: 201,
