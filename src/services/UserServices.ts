@@ -1,4 +1,4 @@
-import { Not, Repository } from "typeorm";
+import { Not, Repository, ILike } from "typeorm";
 import { Request, Response } from "express";
 import { PostgreDataSource } from "../../database/data-source";
 import { User } from "../../database/entities/User";
@@ -12,11 +12,16 @@ export default new (class ThreadServices {
 
   async findAll(req: Request, res: Response): Promise<Response> {
     try {
+      const { search = "" } = req.query;
       let page =
         typeof req.query.page === "string" ? parseInt(req.query.page, 10) : 1;
       page = page > 1 ? page : 1;
 
       const users: User[] = await this.UserRepository.find({
+        where: [
+          { fullname: ILike(`%${search}%`) },
+          { username: ILike(`%${search}%`) },
+        ],
         take: 10,
         skip: page * 10 - 10,
         order: {
