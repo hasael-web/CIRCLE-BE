@@ -154,11 +154,11 @@ export default new (class ThreadServices {
             },
           },
         },
-        order: {
-          replies: {
-            created_at: "DESC",
-          },
-        },
+        // order: {
+        //   replies: {
+        //     created_at: "DESC",
+        //   },
+        // },
       });
 
       if (!thread) {
