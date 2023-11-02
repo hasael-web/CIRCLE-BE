@@ -201,4 +201,29 @@ export default new (class ThreadServices {
       return handleError(res, error);
     }
   }
+
+  async updateProfile(req: Request, res: Response): Promise<Response> {
+    const userSelected: User | null = await this.UserRepository.findOne({
+      where: {
+        id: res.locals.auth.id,
+      },
+    });
+
+    if (!userSelected) {
+      throw new NotFoundError(
+        `User with ID ${res.locals.auth.id} not found`,
+        "User Not Found"
+      );
+    }
+
+    try {
+      return res.status(200).json({
+        code: 200,
+        status: "success",
+        message: "Update Profile Success",
+      });
+    } catch (error) {
+      return handleError(res, error);
+    }
+  }
 })();
