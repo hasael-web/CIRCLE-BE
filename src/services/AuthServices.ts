@@ -44,7 +44,7 @@ export default new (class AuthServices {
       user.email = email;
       user.password = passwordHashed;
       user.profile_picture =
-        "https://www.nicepng.com/png/full/933-9332131_profile-picture-default-png.png";
+        "https://res.cloudinary.com/dogz0yvva/image/upload/v1698908295/nibiru-cloud-storage/qzgmgjmxwxbzvvzspwbz.png";
       await this.UserRepository.save(user);
 
       return res.status(201).json({
@@ -127,5 +127,4 @@ export default new (class AuthServices {
       return handleError(res, error);
     }
   }
-
 })();
