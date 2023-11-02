@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "start": "node dist/src/app.js",
-    "worker": "nodemon dist/src/worker/index.js",
+    "worker": "node dist/src/worker/index.js",
     "worker:dev": "nodemon src/worker/index.ts",
     "migrate:generate": "npx typeorm-ts-node-commonjs migration:generate -d database/data-source.ts database/migration/MigrationFile",
     "migrate:up": "npx typeorm-ts-node-commonjs migration:run -d database/data-source.ts",
