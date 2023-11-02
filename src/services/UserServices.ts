@@ -203,20 +203,40 @@ export default new (class ThreadServices {
   }
 
   async updateProfile(req: Request, res: Response): Promise<Response> {
-    const userSelected: User | null = await this.UserRepository.findOne({
-      where: {
-        id: res.locals.auth.id,
-      },
-    });
-
-    if (!userSelected) {
-      throw new NotFoundError(
-        `User with ID ${res.locals.auth.id} not found`,
-        "User Not Found"
-      );
-    }
-
     try {
+      const { fullName, bio, userName } = req.body;
+
+      const user: User | null = await this.UserRepository.findOne({
+        where: {
+          id: res.locals.auth.id,
+        },
+      });
+
+      if (!user) {
+        throw new NotFoundError(
+          `User with ID ${res.locals.auth.id} not found`,
+          "User Not Found"
+        );
+      }
+
+      const checkUsername: User | null = await this.UserRepository.findOne({
+        where: {
+          username: userName,
+        },
+      });
+
+      if (checkUsername) {
+        throw new NotFoundError(
+          `Username ${userName} already used by other user`,
+          "Username Already Used"
+        );
+      }
+
+      user.username = userName;
+      user.fullname = fullName;
+      user.bio = bio;
+      await this.UserRepository.save(user);
+
       return res.status(200).json({
         code: 200,
         status: "success",
