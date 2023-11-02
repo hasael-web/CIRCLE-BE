@@ -2,6 +2,7 @@ import { Not, Repository, ILike } from "typeorm";
 import { Request, Response } from "express";
 import { PostgreDataSource } from "../../database/data-source";
 import { User } from "../../database/entities/User";
+import { Upload } from "../../database/entities/Upload";
 import handleError from "../utils/exception/handleError";
 import NotFoundError from "../utils/exception/custom/NotFoundError";
 import BadRequestError from "../utils/exception/custom/BadRequestError";
@@ -9,6 +10,8 @@ import BadRequestError from "../utils/exception/custom/BadRequestError";
 export default new (class ThreadServices {
   private readonly UserRepository: Repository<User> =
     PostgreDataSource.getRepository(User);
+  private readonly UploadRepository: Repository<Upload> =
+    PostgreDataSource.getRepository(Upload);
 
   async findAll(req: Request, res: Response): Promise<Response> {
     try {
@@ -204,7 +207,7 @@ export default new (class ThreadServices {
 
   async updateProfile(req: Request, res: Response): Promise<Response> {
     try {
-      const { fullName, bio, userName } = req.body;
+      const { fullName, bio, userName, profilePicture, uploadId } = req.body;
 
       const user: User | null = await this.UserRepository.findOne({
         where: {
@@ -235,7 +238,11 @@ export default new (class ThreadServices {
       user.username = userName;
       user.fullname = fullName;
       user.bio = bio;
+      if (profilePicture) {
+        user.profile_picture = profilePicture;
+      }
       await this.UserRepository.save(user);
+      if (uploadId) await this.UploadRepository.delete(uploadId);
 
       return res.status(200).json({
         code: 200,
