@@ -225,7 +225,7 @@ export default new (class ThreadServices {
         },
       });
 
-      if (checkUsername) {
+      if (checkUsername && checkUsername.id !== user.id) {
         throw new NotFoundError(
           `Username ${userName} already used by other user`,
           "Username Already Used"
