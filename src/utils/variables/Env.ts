@@ -15,6 +15,9 @@ class Env {
   static CLOUDINARY_API_KEY: string = process.env.CLOUDINARY_API_KEY || "cludinary_api_key";
   static CLOUDINARY_API_SECRET: string = process.env.CLOUDINARY_API_SECRET || "cludinary_api_secret";
   static AMQP_SERVER: string = process.env.AMQP_SERVER || "amqp://localhost";
+  static REDIS_PORT: number = process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 6379;
+  static REDIS_HOST: string = process.env.REDIS_HOST || "redis.com";
+  static REDIS_PASSWORD: string = process.env.REDIS_PASSWORD || "secretredispw";
 }
 
 export default Env;

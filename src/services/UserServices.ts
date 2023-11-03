@@ -6,6 +6,7 @@ import { Upload } from "../../database/entities/Upload";
 import handleError from "../utils/exception/handleError";
 import NotFoundError from "../utils/exception/custom/NotFoundError";
 import BadRequestError from "../utils/exception/custom/BadRequestError";
+import redisClient, { DEFAULT_EXPIRATION } from "../cache/redis";
 
 export default new (class ThreadServices {
   private readonly UserRepository: Repository<User> =
@@ -121,26 +122,47 @@ export default new (class ThreadServices {
         );
       }
 
-      const followings = await this.UserRepository.query(
-        "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=f.following_id WHERE f.follower_id=$1",
-        [res.locals.auth.id]
-      );
-      const followers = await this.UserRepository.query(
-        "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=follower_id WHERE f.following_id=$1",
-        [res.locals.auth.id]
-      );
+      const cacheFromRedis = await redisClient.get(`profile=${user.id}`);
+      if (cacheFromRedis) {
+        return res.status(200).json({
+          code: 200,
+          status: "success",
+          message: "Find One User By Jwt Success (Cache)",
+          data: JSON.parse(cacheFromRedis),
+        });
+      } else {
+        const followings = await this.UserRepository.query(
+          "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=f.following_id WHERE f.follower_id=$1",
+          [res.locals.auth.id]
+        );
+        const followers = await this.UserRepository.query(
+          "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=follower_id WHERE f.following_id=$1",
+          [res.locals.auth.id]
+        );
 
-      return res.status(200).json({
-        code: 200,
-        status: "success",
-        message: "Find One User By Jwt Success",
-        data: {
-          ...user,
-          password: null,
-          followers,
-          followings,
-        },
-      });
+        redisClient.setEx(
+          `profile=${user.id}`,
+          DEFAULT_EXPIRATION,
+          JSON.stringify({
+            ...user,
+            password: null,
+            followers,
+            followings,
+          })
+        );
+
+        return res.status(200).json({
+          code: 200,
+          status: "success",
+          message: "Find One User By Jwt Success (Fresh)",
+          data: {
+            ...user,
+            password: null,
+            followers,
+            followings,
+          },
+        });
+      }
     } catch (error) {
       return handleError(res, error);
     }
@@ -243,6 +265,8 @@ export default new (class ThreadServices {
       }
       await this.UserRepository.save(user);
       if (uploadId) await this.UploadRepository.delete(uploadId);
+
+      redisClient.del(`profile=${user.id}`);
 
       return res.status(200).json({
         code: 200,
