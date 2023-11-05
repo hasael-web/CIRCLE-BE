@@ -92,7 +92,7 @@ export default new (class AuthServices {
         expiresIn: 604800,
       });
 
-      return res.status(201).json({
+      return res.status(200).json({
         code: 200,
         status: "success",
         message: "Login Success",

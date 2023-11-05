@@ -1,0 +1,353 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Circle API Documentation",
+    "description": "OpenAPI which contains complete documentation about all endpoints that can be used in this RESTful API.",
+    "contact": {
+      "name": "Andry Pebrianto",
+      "url": "https://andrypebrianto.netlify.app",
+      "email": "andryforwork227@gmail.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://opensource.org/license/mit"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5425/api/v1",
+      "description": "Development API v1"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Register",
+        "tags": [
+          "Auth"
+        ],
+        "description": "This endpoint is used to register new user.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "User 1": {
+                  "description": "Register Request Body Example 1",
+                  "value": {
+                    "fullName": "Bagas Ihwaludin",
+                    "email": "imgoodman25@gmail.com",
+                    "password": "Aswassaw1A$"
+                  }
+                },
+                "User 2": {
+                  "description": "Register Request Body Example 2",
+                  "value": {
+                    "fullName": "Adi Cahyono",
+                    "email": "adiweebotaku@gmail.com",
+                    "password": "Password1A$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Register Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                },
+                "example": {
+                  "code": 201,
+                  "status": "success",
+                  "message": "Register Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Failure"
+                },
+                "example": {
+                  "code": 400,
+                  "status": "failed",
+                  "message": "Validation Failed",
+                  "error": "\"fullName\" is required"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Regster Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Failure"
+                },
+                "example": {
+                  "code": 409,
+                  "status": "failed",
+                  "message": "Register Failed",
+                  "error": "Email imgoodman25@gmail.com already registered"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Failure"
+                },
+                "example": {
+                  "code": 500,
+                  "status": "failed",
+                  "message": "Internal Server Error",
+                  "error": "An unknown error occurred"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Login",
+        "tags": [
+          "Auth"
+        ],
+        "description": "This endpoint is used to get jwt token for login.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emailOrUsername": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "User 1": {
+                  "description": "Login Request Body Example 1",
+                  "value": {
+                    "emailOrUsername": "imgoodman25@gmail.com",
+                    "password": "Aswassaw1A$"
+                  }
+                },
+                "User 2": {
+                  "description": "Login Request Body Example 2",
+                  "value": {
+                    "emailOrUsername": "adiweebotaku@gmail.com",
+                    "password": "Password1A$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessWithToken"
+                },
+                "example": {
+                  "code": 201,
+                  "status": "success",
+                  "message": "Register Success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Failure"
+                },
+                "example": {
+                  "code": 400,
+                  "status": "failed",
+                  "message": "Validation Failed",
+                  "error": "\"emailOrUsername\" is required"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Failure"
+                },
+                "example": {
+                  "code": 500,
+                  "status": "failed",
+                  "message": "Internal Server Error",
+                  "error": "An unknown error occurred"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check": {
+      "get": {
+        "summary": "Check Token",
+        "tags": [
+          "Auth"
+        ],
+        "description": "This endpoint is used to check whether the jwt token is still valid or not.",
+        "responses": {
+          "200": {
+            "description": "Token Is Valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                },
+                "example": {
+                  "code": 200,
+                  "status": "success",
+                  "message": "Token Is Valid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Failure"
+                },
+                "example": {
+                  "code": 401,
+                  "status": "failed",
+                  "message": "Access Unauthorized",
+                  "error": "JWT Token Invalid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Failure"
+                },
+                "example": {
+                  "code": 500,
+                  "status": "failed",
+                  "message": "Internal Server Error",
+                  "error": "An unknown error occurred"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Token": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Success": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "SuccessWithToken": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "Failure": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer Token": {
+        "description": "Token To Authorized Private Endpoint",
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
