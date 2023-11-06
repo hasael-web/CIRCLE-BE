@@ -288,6 +288,145 @@
           }
         ]
       }
+    },
+    "/users": {
+      "get": {
+        "summary": "Find All User",
+        "tags": [
+          "User"
+        ],
+        "description": "This endpoint is used to get all user data.",
+        "responses": {
+          "200": {
+            "description": "Find All User Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "username": {
+                            "type": "string"
+                          },
+                          "fullname": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "password": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "profile_picture": {
+                            "type": "string"
+                          },
+                          "bio": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "totalPage": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "status": "success",
+                  "message": "Find All User Success",
+                  "data": [
+                    {
+                      "id": "1b3f6841-8839-46c7-9d70-2ba2ae10f437",
+                      "username": "user_1b3f6841_22961",
+                      "fullname": "Adi Cahyono",
+                      "email": "adiweebotaku@gmail.com",
+                      "password": null,
+                      "profile_picture": "https://res.cloudinary.com/dogz0yvva/image/upload/v1698908295/nibiru-cloud-storage/qzgmgjmxwxbzvvzspwbz.png",
+                      "bio": null,
+                      "created_at": "2023-11-05T13:00:51.035Z",
+                      "updated_at": "2023-11-05T13:00:51.035Z"
+                    },
+                    {
+                      "id": "a7059e69-e6fe-4d84-871d-13839565e84c",
+                      "username": "user_a7059e69_1374",
+                      "fullname": "Bagas Ihwaludin",
+                      "email": "imgoodman25@gmail.com",
+                      "password": null,
+                      "profile_picture": "https://res.cloudinary.com/dogz0yvva/image/upload/v1698908295/nibiru-cloud-storage/qzgmgjmxwxbzvvzspwbz.png",
+                      "bio": null,
+                      "created_at": "2023-11-05T10:48:55.104Z",
+                      "updated_at": "2023-11-05T10:48:55.104Z"
+                    }
+                  ],
+                  "totalPage": 1
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Failure"
+                },
+                "example": {
+                  "code": 401,
+                  "status": "failed",
+                  "message": "Access Unauthorized",
+                  "error": "JWT Token Invalid"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Failure"
+                },
+                "example": {
+                  "code": 500,
+                  "status": "failed",
+                  "message": "Internal Server Error",
+                  "error": "An unknown error occurred"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Token": []
+          }
+        ]
+      }
     }
   },
   "components": {
