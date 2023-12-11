@@ -15,40 +15,40 @@ import { Reply } from "./Reply";
 @Entity("users")
 export class User {
   @PrimaryColumn({ type: "uuid" })
-    id!: string;
+  id!: string;
 
   @Column({ length: 50 })
-    username!: string;
+  username!: string;
 
   @Column({ length: 100 })
-    fullname!: string;
+  fullname!: string;
 
   @Column({ length: 50 })
-    email!: string;
+  email!: string;
 
   @Column({ type: "text" })
-    password!: string;
+  password!: string;
 
   @Column({ type: "text" })
-    profile_picture!: string;
+  profile_picture!: string;
 
   @Column({ length: 250, nullable: true })
-    bio!: string;
+  bio!: string;
 
-  @CreateDateColumn({ type: "timestamp with time zone" })
-    created_at!: Date;
+  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  created_at!: Date;
 
-  @UpdateDateColumn({ type: "timestamp with time zone" })
-    updated_at!: Date;
+  @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  updated_at!: Date;
 
   @OneToMany(() => Thread, (thread) => thread.user)
-    threads!: Thread[];
+  threads!: Thread[];
 
   @OneToMany(() => Like, (like) => like.user)
-    likes!: Like[];
+  likes!: Like[];
 
   @OneToMany(() => Reply, (reply) => reply.user)
-    replies!: Reply[];
+  replies!: Reply[];
 
   @ManyToMany(() => User, (user) => user.users)
   @JoinTable({
@@ -62,5 +62,5 @@ export class User {
       referencedColumnName: "id",
     },
   })
-    users!: User[];
+  users!: User[];
 }

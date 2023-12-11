@@ -15,30 +15,30 @@ import { Reply } from "./Reply";
 @Entity("threads")
 export class Thread {
   @PrimaryColumn({ type: "uuid" })
-    id!: string;
+  id!: string;
 
   @Column({ length: 500 })
-    content!: string;
+  content!: string;
 
   @Column({ type: "text", nullable: true })
-    image!: string;
+  image!: string;
 
-  @CreateDateColumn({ type: "timestamp with time zone" })
-    created_at!: Date;
+  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  created_at!: Date;
 
-  @UpdateDateColumn({ type: "timestamp with time zone" })
-    updated_at!: Date;
+  @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  updated_at!: Date;
 
   @ManyToOne(() => User, (user) => user.threads, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "user_id" }) // untuk membuat foreignkey
-    user!: User;
+  user!: User;
 
   @OneToMany(() => Like, (like) => like.thread)
-    likes!: Like[];
+  likes!: Like[];
 
   @OneToMany(() => Reply, (reply) => reply.thread)
-    replies!: Reply[];
+  replies!: Reply[];
 }

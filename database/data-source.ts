@@ -6,18 +6,16 @@ import { Thread } from "./entities/Thread";
 import { Reply } from "./entities/Reply";
 import { Like } from "./entities/Like";
 import { Upload } from "./entities/Upload";
-import { MigrationFile1698899930953 } from './migration/1698899930953-MigrationFile';
+import { MigrationFile1699409535487 } from "./migration/1699409535487-MigrationFile";
 
 export const PostgreDataSource = new DataSource({
-  type: "postgres",
+  type: "mysql",
   host: Env.DB_HOST,
   port: Env.DB_PORT,
   username: Env.DB_USERNAME,
-  password: Env.DB_PASSWORD,
+  password: "",
   database: Env.DB_NAME,
-  synchronize: Env.NODE_ENV === "prod" ? false : true,
-  logging: Env.NODE_ENV === "prod" ? false : true,
   entities: [User, Thread, Reply, Like, Upload],
-  migrations: [MigrationFile1698899930953],
+  migrations: [MigrationFile1699409535487],
   subscribers: [],
 });

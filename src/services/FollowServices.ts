@@ -58,7 +58,7 @@ export default new (class FollowServices {
 
       // CHECK IF ALREADY FOLLOW
       const checkFollow = await this.UserRepository.query(
-        "SELECT * FROM following WHERE following_id=$1 AND follower_id=$2",
+        "SELECT * FROM following WHERE following_id=? AND follower_id=?",
         [followingUser.id, followerUser.id]
       );
       // CHECK IF ALREADY FOLLOW
@@ -66,7 +66,7 @@ export default new (class FollowServices {
       // IF ALREADY FOLLOW
       if (checkFollow.length) {
         await this.UserRepository.query(
-          "DELETE FROM following WHERE following_id=$1 AND follower_id=$2",
+          "DELETE FROM following WHERE following_id=? AND follower_id=?",
           [followingUser.id, followerUser.id]
         );
 
@@ -76,11 +76,8 @@ export default new (class FollowServices {
           message: "Undo Follow User Success",
         });
       }
-      // IF ALREADY FOLLOW
-
-      // IF NOT YET LIKE
       await this.UserRepository.query(
-        "INSERT INTO following(following_id, follower_id) VALUES($1, $2)",
+        "INSERT INTO following(following_id, follower_id) VALUES(?, ?)",
         [followingUser.id, followerUser.id]
       );
 
@@ -89,7 +86,6 @@ export default new (class FollowServices {
         status: "success",
         message: "Follow Success",
       });
-      // IF NOT YET LIKE
     } catch (error) {
       return handleError(res, error);
     }

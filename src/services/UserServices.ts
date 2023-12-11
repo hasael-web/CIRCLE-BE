@@ -83,11 +83,11 @@ export default new (class ThreadServices {
       }
 
       const followings = await this.UserRepository.query(
-        "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=f.following_id WHERE f.follower_id=$1",
+        "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=f.following_id WHERE f.follower_id=?",
         [userId]
       );
       const followers = await this.UserRepository.query(
-        "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=follower_id WHERE f.following_id=$1",
+        "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=follower_id WHERE f.following_id=?",
         [userId]
       );
 
@@ -115,6 +115,8 @@ export default new (class ThreadServices {
         },
       });
 
+      // console.log(user);
+
       if (!user) {
         throw new NotFoundError(
           `User with ID ${res.locals.auth.id} not found`,
@@ -132,11 +134,11 @@ export default new (class ThreadServices {
         });
       } else {
         const followings = await this.UserRepository.query(
-          "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=f.following_id WHERE f.follower_id=$1",
+          "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=f.following_id WHERE f.follower_id=?",
           [res.locals.auth.id]
         );
         const followers = await this.UserRepository.query(
-          "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=follower_id WHERE f.following_id=$1",
+          "SELECT u.id, u.username, u.fullname, u.profile_picture FROM following as f INNER JOIN users as u ON u.id=follower_id WHERE f.following_id=?",
           [res.locals.auth.id]
         );
 
@@ -180,7 +182,7 @@ export default new (class ThreadServices {
           "users.profile_picture",
         ])
         .where({ id: Not(res.locals.auth.id) })
-        .orderBy("RANDOM()")
+        .orderBy("RAND()")
         .limit(5)
         .getMany();
 
@@ -211,7 +213,7 @@ export default new (class ThreadServices {
       }
 
       await this.UserRepository.query(
-        "DELETE FROM following WHERE following_id=$1 OR follower_id=$1",
+        "DELETE FROM following WHERE following_id=? OR follower_id=?",
         [res.locals.auth.id]
       );
 

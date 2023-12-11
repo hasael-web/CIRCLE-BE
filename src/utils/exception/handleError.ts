@@ -20,6 +20,7 @@ const handleError = (res: Response, error: unknown): Response => {
       code: 500,
       status: "failed",
       message: "Internal Server Error",
+      errp: error,
       error: error.message,
     });
   }

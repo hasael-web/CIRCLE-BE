@@ -27,6 +27,8 @@ export default new (class AuthServices {
         },
       });
 
+      // console.log(checkEmail);
+
       if (checkEmail) {
         throw new ConflictError(
           `Email ${email} already registered`,
