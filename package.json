@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "API Service for Circle App.",
   "main": "dist/src/app.js",
-  "repository": "https://github.com/andry-pebrianto/circle-api.git",
+  "repository": "https://github.com/hasael-web/CIRCLE-BE.git",
   "author": "overall",
   "scripts": {
     "dev": "nodemon src/app.ts",

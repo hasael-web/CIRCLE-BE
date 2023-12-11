@@ -20,7 +20,7 @@ This is a Restful API repository for Circle. This Restful API is built using Exp
 
 ### Installation
 
-- Clone this project with `https://github.com/andry-pebrianto/circle-api.git`
+- Clone this project with `https://github.com/hasael-web/CIRCLE-BE.git`
 - Install package required with `yarn`
 - Setting .env
 
@@ -52,22 +52,3 @@ REDIS_PASSWORD=
 ### Executing program
 
 - Run program with `yarn run dev` for development and `yarn run start` for production (must be compiled first with `yarn run compile`)
-
-<!-- RELATED PROJECT -->
-
-## Related Project
-
-- [Circle Client](https://github.com/andry-pebrianto/circle-client)
-- [Circle Demo](https://circle-community.netlify.app/)
-
-## Authors
-
-Contributors names and contact info:
-
-1. Andry Pebrianto
-
-- [Linkedin](https://www.linkedin.com/in/andry-pebrianto)
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details
