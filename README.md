@@ -12,9 +12,6 @@ This is a Restful API repository for Circle. This Restful API is built using Exp
 - [JWT](https://jwt.io/)
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [Cloudinary](https://cloudinary.com/)
-- [RabbitMQ](https://rabbitmq.com/)
-- [Redis](https://redis.io/)
-- [CronJob](https://www.npmjs.com/package/node-cron/)
 
 ## Getting Started
 
